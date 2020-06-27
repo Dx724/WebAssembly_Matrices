@@ -23,4 +23,4 @@ function matmult(m1, m2, cols1, cols2) { //Assumes that m1 and m2 are matrices w
 }
 test1 = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 test2 = [7, 2, 3, 1, 5, 3, 6, 4, 3, 6, 3, 2];
-console.log(matmult(test1, test2, 3, 4));
+console.log(matmult(test1, test2, 3, 4)); //Expected result: [26, 26, 24, 15, 71, 59, 60, 36, 116, 92, 96, 57]

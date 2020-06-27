@@ -13,8 +13,8 @@ function matmult(m1, m2, cols1, cols2) { //Assumes that m1 and m2 are matrices w
         }
         else {
             i2 = 0;
-            i1 += 1;
-            if (i1 == m1.length / cols1) {
+            i1 += cols1;
+            if (i1 == m1.length) {
                 break;
             }
         }

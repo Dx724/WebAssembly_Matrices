@@ -1,4 +1,4 @@
-fetch("wasm.wasm").then(wasm => {
+fetch("wasm.wasm").then(wasm => {wasm.arrayBuffer().then((wasm) => {
     //startTime = performance.now();
 
     var importObject = {
@@ -16,4 +16,4 @@ fetch("wasm.wasm").then(wasm => {
     });
 
     //console.log("Total Time:" + (performance.now() - startTime));
-});
+})});

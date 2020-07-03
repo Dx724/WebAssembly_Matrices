@@ -1,7 +1,7 @@
 fetch("wasm.wasm").then(wasm => {wasm.arrayBuffer().then((wasm) => {
     //startTime = performance.now();
 
-    var importObject = {
+    importObject = {
         console: {
             log: (value) => console.log(value)
         },

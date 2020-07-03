@@ -70,14 +70,16 @@
 
                 local.get $resAddr
                 i32.const 4
+                i32.add
                 local.set $resAddr ;;Increment to next matrix location
 
                 local.get $i2
                 i32.const 1
                 i32.add
                 local.set $i2 ;;i2 += 1
+                local.get $i2
                 local.get $cols2
-                i32.ne
+                i32.eq
                 (if ;;Note that rather than checking if i2 != cols2-1 as in the corresponding JavaScript code, we add 1 to i2 first and compare to cols2
                     (then
                         i32.const 0
@@ -95,14 +97,16 @@
                         br_if $b1 ;;Break out of loop
                     )
                 )
+                br $l1
             )
         )
 
         global.get $currentAddress ;; Get start of matrix, where we will store the length
 
-        global.get $currentAddress
         local.get $resAddr
+        global.get $currentAddress
         i32.sub
+
         i32.const 4
         i32.div_s ;; Each time we add an element, we increase resAddr by 4, plus one additional +4 at the beginning
         i32.const 1
@@ -316,13 +320,15 @@
         i32.add
         global.set $currentAddress
 
-        local.get $mat1
+        (;local.get $mat1
         call $logMat
         local.get $mat2
-        call $logMat
+        call $logMat;)
 
         local.get $mat1
         local.get $mat2
+        i32.const 3 ;;cols1
+        i32.const 4 ;;cols2
         call $matmult
         call $logMat
     )

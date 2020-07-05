@@ -1,5 +1,5 @@
 //With thanks to Francois Beaufort for a very helpful post (https://developers.google.com/web/updates/2019/08/get-started-with-gpu-compute-on-the-web)
-import glslang from "glslang.js"; //https://unpkg.com/@webgpu/glslang@0.0.8/dist/web-devel/glslang.js
+import glslang from "https://unpkg.com/@webgpu/glslang@0.0.8/dist/web-devel/glslang.js";
 
 async function matmult(m1, m2, cols1, cols2) {
     // Get WebGPU interfaces
@@ -7,25 +7,25 @@ async function matmult(m1, m2, cols1, cols2) {
     const device = await adapter.requestDevice();
 
     //Load first matrix into GPU memory
-    const mat1 = new Float32Array([len(m1)/cols1, cols1, ...m1]);
+    const mat1 = new Float32Array([cols1, m1.length/cols1, ...m1]);
     const [gpuBuffer_m1, arrayBuffer_m1] = device.createBufferMapped({
         size: mat1.byteLength,
         usage: GPUBufferUsage.STORAGE
     });
     new Float32Array(arrayBuffer_m1).set(mat1);
-    arrayBuffer_m1.unmap();
+    gpuBuffer_m1.unmap();
 
     //Load second matrix into GPU memory
-    const m2 = new Float32Array([len(m2)/cols2, cols2, ...mat2]);
+    const mat2 = new Float32Array([cols2, m2.length/cols2, ...m2]);
     const [gpuBuffer_m2, arrayBuffer_m2] = device.createBufferMapped({
         size: mat2.byteLength,
         usage: GPUBufferUsage.STORAGE
     });
     new Float32Array(arrayBuffer_m2).set(mat2);
-    arrayBuffer_m2.unmap();
+    gpuBuffer_m2.unmap();
 
     //Create result matrix
-    const resultBufSize = Float32Array.BYTES_PER_ELEMENT * (length(m1) / cols1 * cols2);
+    const resultBufSize = Float32Array.BYTES_PER_ELEMENT * (m1.length / cols1 * cols2);
     const resultBuffer = device.createBuffer({
         size: resultBufSize,
         usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC
@@ -92,11 +92,11 @@ async function matmult(m1, m2, cols1, cols2) {
             float vals[];
         } res;
 
-        void calcCell() {
+        void main() {
             ivec2 rPos = ivec2(gl_GlobalInvocationID.x, gl_GlobalInvocationID.y);
             float tRes = 0.0;
-            for (int d = 0; d < matrix1.cols; d++) {
-                tRes += (matrix1.vals[int(rPos.y * m1.dim.x + d)] * matrix2[int(rPos.x + m2.dim.x * d)]);
+            for (int d = 0; d < matrix1.dim.x; d++) {
+                tRes += (matrix1.vals[int(rPos.y * matrix1.dim.x + d)] * matrix2.vals[int(rPos.x + matrix2.dim.x * d)]);
             }
             res.vals[rPos.x + rPos.y * int(matrix2.dim.x)] = tRes;
         }
@@ -105,14 +105,14 @@ async function matmult(m1, m2, cols1, cols2) {
     //Compile module and build pipeline
     const glslangInstance = await glslang();
     const computePipeline = device.createComputePipeline({
-        layout: device.createComputePipeline({
+        layout: device.createPipelineLayout({
             bindGroupLayouts: [bindGroupLayout]
         }),
         computeStage: {
             module: device.createShaderModule({
                 code: glslangInstance.compileGLSL(glslShaderCode, "compute")
             }),
-            entryPoint: "calcCell"
+            entryPoint: "main"
         }
     });
 
@@ -121,7 +121,7 @@ async function matmult(m1, m2, cols1, cols2) {
     const passEnc = cmdEnc.beginComputePass();
     passEnc.setPipeline(computePipeline);
     passEnc.setBindGroup(0, bindGroup);
-    passEnc.dispatch(len(m1)/cols1, cols2); //Run the shader for a result matrix of this size
+    passEnc.dispatch(cols2, m1.length/cols1); //Run the shader for a result matrix of this size
     passEnc.endPass();
 
     //Use another buffer the read results from GPU

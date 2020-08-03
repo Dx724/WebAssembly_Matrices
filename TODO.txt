@@ -1,0 +1,5 @@
+Print newlines so result is in matrix format
+
+Notes:
+r = np.random.randint(-15, 16, (10000))
+C code may have slight advantage in not having to reallocate memory

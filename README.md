@@ -28,6 +28,7 @@ Matrix multiplication implementations in C, Javascript, WebAssembly Text Format,
 - Javascript tests were run using Google Chrome 84.0.4147.105 (64-bit)
 - WebGPU required Google Chrome Canary (86.0.4220.0 was used)
 - The WASM code (and none of the others) took almost 2.5 times as much time to run when the developer console was open in Chrome.
+- Windows would deny Chorome (using WebGPU) access to the GPU after running ~30000 consecutive matrix multiplications.
 - The C code was run on a similar machine that showed very similar WebAssembly results.
 - All other code was run on a Microsoft Surface Pro 6.
 

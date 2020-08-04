@@ -5,3 +5,4 @@ r = np.random.randint(-15, 16, (10000))
 C code may have slight advantage in not having to reallocate memory
 WebGPU memory overhead very large -- calculations themselves are fast
 WASM code ran almost 3 times slower when the javascript console was open
+C code was tested on a different computer that showed similar WASM runtimes

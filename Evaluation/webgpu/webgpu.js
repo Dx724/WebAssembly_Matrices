@@ -140,7 +140,7 @@ async function matmult(m1, m2, cols1, cols2) {
     const gpuCmds = cmdEnc.finish();
 
     var commandsToRun = [];
-    for (var i = 0; i < 1000; i++) {
+    for (var i = 0; i < 10000; i++) {
         commandsToRun.push(gpuCmds);
     }
     device.defaultQueue.submit(commandsToRun);

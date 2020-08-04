@@ -2,7 +2,8 @@ Print newlines so result is in matrix format
 
 Notes:
 r = np.random.randint(-15, 16, (10000))
-C code may have slight advantage in not having to reallocate memory
+C and WebGPU code may have slight advantage in not having to reallocate memory
 WebGPU memory overhead very large -- calculations themselves are fast
-WASM code ran almost 3 times slower when the javascript console was open
+WASM code ran almost 2.5 times slower when the javascript console was open
 C code was tested on a different computer that showed similar WASM runtimes
+When running WebGPU with 10000 or more iterations, the computer would deny access to the GPU after ~3 runs.

@@ -140195,7 +140195,7 @@
             drop ;;Discard this result
 
             local.get $iIdx
-            i32.const 10000
+            i32.const 1000
             i32.ne
             br_if $lIter ;;Loop again if not done yet
         )

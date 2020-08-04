@@ -13,6 +13,7 @@ fetch("wasm.wasm").then(wasm => {wasm.arrayBuffer().then((wasm) => {
 
     WebAssembly.instantiate(wasm, importObject).then(obj => {
         obj.instance.exports.runCode();
-        console.log("Total Time: " + (performance.now() - startTime) + " milliseconds");
+        var endTime = performance.now();
+        console.log("Total Time: " + (endTime - startTime) + " milliseconds");
     });
 })});

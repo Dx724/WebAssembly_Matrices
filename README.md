@@ -19,8 +19,8 @@ Matrix multiplication implementations in C, Javascript, WebAssembly Text Format,
 - Standard deviation bars are included.
 - WebGPU and WASM were also evaluated again with 10000 iterations to demonstrate WebGPU's power at larger scales.
 
-<img src="evaluation/graph1.png" alt="All 4 Performance Comparison (1000 multiplications)" height="300px"/>
-<img src="evaluation/graph2.png" alt="C vs. WebGPU vs. WASM Performance Comparison (10000 multiplications)" height="300px"/>
+<img src="Evaluation/graph1.png" alt="All 4 Performance Comparison (1000 multiplications)" height="300px"/>
+<img src="Evaluation/graph2.png" alt="C vs. WebGPU vs. WASM Performance Comparison (10000 multiplications)" height="300px"/>
 
 ## Various Notes
 - No extensive debug console outputs are present during performance testing, as repeated console.log calls are relatively expensive (all outputs are stored in memory).
